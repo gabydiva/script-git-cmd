@@ -1,0 +1,32 @@
+@echo off
+setlocal enabledelayedexpansion
+
+set REPO_URL=https://github.com/exemplo/repositorio.git
+set GIT_USERNAME=SeuNomeDeUsuario
+set GIT_EMAIL=seu.email@exemplo.com
+
+echo Clonando repositório...
+cd /d C:\
+git clone %REPO_URL%
+
+for %%i in ("%REPO_URL%") do set REPO_FOLDER=%%~ni
+
+cd /d C:\%REPO_FOLDER%
+
+echo Configurando Git...
+git config user.name "%GIT_USERNAME%"
+git config user.email "%GIT_EMAIL%"
+
+echo Criando arquivo de hostname...
+hostname > hostname.txt
+
+echo Criando arquivo de IP...
+ipconfig | findstr /R /C:"IPv4 Address" > ip.txt
+
+echo Adicionando arquivos ao repositório...
+git add hostname.txt ip.txt
+
+git commit -m "Adiciona informações de sistema: hostname e IP"
+
+echo Script concluído!
+pause
